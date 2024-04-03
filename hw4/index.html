@@ -1,7 +1,116 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Homework 4 index.html here
-	</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  body {
+    padding: 100px;
+    width: 1000px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+</style>
+<title>CS 184 Mesh Editor</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2017</h1>
+<h1 align="middle">Project 4: Cloth Simulator</h1>
+<h2 align="middle">Zachary Yan, CS184-??</h2>
+
+<br><br>
+
+<div>
+
+<h2 align="middle">Overview</h2>
+<p>Give a high-level overview of what you implemented in this project. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the project.
+
+
+	This homework was very interesting. In part 1 I coded a mass spring system to simulate the cloth through filling the given spring nad mass vector3d lists. In the second part I simulated via numerical intergration movement of these point masses which I followed up with figuring out how to handle collisions with spheres, planes and the cloth itself.
+	Overall it was very interesting to see the different parts that would go into something as simple as rendering a cloth and exerting forces on it in a 3-D region with other objects or planes.
+</p>
+
+<h2 align="middle">Part I: Masses and springs</h2>
+screenshots of pinned 2 
+<img src="images/Screenshot 2024-03-31 at 6.02.27 PM.png" align="middle" width="400px"/>
+<img src="images/Screenshot 2024-03-31 at 6.02.34 PM.png" align="middle" width="400px"/>
+<div>
+	No shearing constraints
+	<img src="images/Screenshot 2024-03-31 at 6.02.41 PM.png" align="middle" width="400px"/>
+</div>
+<div>Only shearing constraints
+	<img src="images/Screenshot 2024-03-31 at 6.02.48 PM.png" align="middle" width="400px"/>
+</div>
+
+<div>all constraints
+		<img src="images/Screenshot 2024-03-31 at 6.02.56 PM.png" align="middle" width="400px"/>
+	</div>
+
+<h2 align="middle">Part 2: Simulation via numerical integration</h2>
+Varying the spring constant between the base of 5000, 100 and 100000 showed how the cloth was a lot more rigid and bouncy at higher spring constants wheras at low constants the cloth was more flexible and settled a lot faster after dropping
+<div>ks 5000
+	<img src="images/Screenshot 2024-04-01 at 2.42.57 PM.png" align="middle" width="400px"/></div>
+<div>ks1
+	<img src="images/Screenshot 2024-04-01 at 2.43.02 PM.png" align="middle" width="400px"/></div>
+<div>
+The density mostly affected the top edge as expected, with higher density i.e. 500, the middle of the top edge drooped more as expected due to a larger gravity force acting on it wheras at how gravity the top edge was nearly straight as shwon in images below
+<div>density 500
+	<img src="images/Screenshot 2024-04-01 at 2.37.49 PM.png" align="middle" width="400px"/></div>
+<div>density 1
+	<img src="images/Screenshot 2024-04-01 at 2.37.44 PM.png" align="middle" width="400px"/></div>
+<div>
+Varying damping changes how much the cloth moves as it falls, with damping at 0% it appears the cloth will bounce around for a long time (possible indefinite??) and changing damping to 100% will just cause it to smmothly float to its final resting position with no back and forth oscilation
+<div> Screenshot of pinned4
+	<img src="images/Screenshot 2024-04-01 at 2.49.22 PM.png" align="middle" width="400px"/></div>
+</div>
+
+<h2 align="middle">Part 3: Handling collisions with other objects</h2>
+<div>screenshots of sphere.json in final resting state with different ks values
+	It appears that the cloth is more rigid and "sticks out" a lot more at higher constant values. As shown in the screenshots below, ks = 500 appears to be the most contoured to the sphere underneath wheras ks = 50000 has a very wide appearence with many parts of the cloth sticking out weirdly
+	<div>ks 5000
+		<img src="images/Screenshot 2024-04-01 at 6.49.28 PM.png" align="middle" width="400px"/></div>
+	<div>ks 500
+		<img src="images/Screenshot 2024-04-01 at 6.49.32 PM.png" align="middle" width="400px"/></div>
+	<div>ks 50000
+		<img src="images/Screenshot 2024-04-01 at 6.49.43 PM.png" align="middle" width="400px"/></div>
+</div>
+<div>
+	cloth lying peacefully (lol)
+    <img src="images/Screenshot 2024-04-01 at 6.54.28 PM.png" align="middle" width="400px"/>
+</div>
+<h2 align="middle">Part 4: Handling self-collisions</h2>
+<div>
+	3 screenshots of cloth falling early, intial self collision, and restful state
+	<img src="images/Screenshot 2024-04-02 at 12.09.12 AM.png" align="middle" width="400px"/>
+	<img src="images/Screenshot 2024-04-02 at 12.09.14 AM.png" align="middle" width="400px"/>
+	<img src="images/Screenshot 2024-04-02 at 12.09.22 AM.png" align="middle" width="400px"/>
+</div>
+<div>
+	As expected, increasing the density will cause the cloth to fold more tightly and closer to the ground. The density 1 screenshot shows the cloth resting folded over itself relatively off the plane wheras the density 5000 screenshot shows hte cloth splat on the plane
+	<div>density 1
+		<img src="images/Screenshot 2024-04-02 at 1.15.52 AM.png" align="middle" width="400px"/></div>
+	<div>density 5000
+		<img src="images/Screenshot 2024-04-02 at 1.15.43 AM.png" align="middle" width="400px"/></div>
+</div>
+<div>
+	Low spring constant appears to cause the cloth to curl around itself and wrap around in a compact manner but in a different way to high density.
+	High spring constant seems to cause the cloth to become a lot more fluid and appears a lot more "relaxed"
+	<div>ks 1
+		<img src="images/Screenshot 2024-04-02 at 1.18.36 AM.png" align="middle" width="400px"/></div>
+	<div>ks 5000
+		<img src="images/Screenshot 2024-04-02 at 1.18.48 AM.png" align="middle" width="400px"/></div>
+</div>
+<h2 align="middle">Part 5: Part 5: Cloth Sim</h2>
+A shader program is a program that runs on the GPU and is used to render graphics. It is a program that is used to determine how the pixels on the screen should be colored.
+Vertex and fragment shaders work together to render graphics. The vertex shader is used to determine the position of the vertices of the object being rendered from 3D to 2D. The fragment shader is used to determine the color of the pixels on the screen.
+</body>
 </html>
